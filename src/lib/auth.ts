@@ -2,10 +2,12 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
-import type { Role, User } from "@prisma/client";
+import type { Role } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { authConfig } from "@/auth.config";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+    ...authConfig,
     secret: process.env.AUTH_SECRET || "xin-chao-day-la-chuoi-bi-mat-qltb-nextauth-2026",
     adapter: PrismaAdapter(prisma),
     session: { strategy: "jwt" },
@@ -35,28 +37,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             }
         })
     ],
-    callbacks: {
-        async jwt({ token, user }) {
-            if (user) {
-                token.id = user.id;
-                token.role = (user as any).role;
-                token.department = (user as any).department;
-            }
-            return token;
-        },
-        async session({ session, token }) {
-            if (token && session.user) {
-                session.user.id = token.id as string;
-                session.user.role = token.role as Role;
-                session.user.department = token.department as string | null;
-            }
-            return session;
-        },
-    },
-    pages: {
-        signIn: "/login",
-        error: "/login",
-    },
 });
 
 // Extend next-auth types
