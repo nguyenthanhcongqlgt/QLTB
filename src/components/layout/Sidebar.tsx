@@ -6,7 +6,7 @@ import { signOut, useSession } from "next-auth/react";
 import {
     BookOpen, LayoutDashboard, Package, ScrollText,
     ShoppingCart, FileText, LogOut,
-    BookMarked, Menu, X, Archive, Tag, Users
+    BookMarked, Menu, X, Archive, Tag, Users, Settings, Building2, UserCircle
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ const teacherNav = [
     { href: "/catalog", label: "Danh mục thiết bị", icon: Package },
     { href: "/cart", label: "Giỏ đặt mượn", icon: ShoppingCart },
     { href: "/my-bookings", label: "Phiếu của tôi", icon: BookMarked },
+    { href: "/profile", label: "Hồ sơ cá nhân", icon: UserCircle },
 ];
 
 const adminNav = [
@@ -26,7 +27,10 @@ const adminNav = [
     { href: "/admin/categories", label: "Danh mục", icon: Tag },
     { href: "/admin/inventory", label: "Nhật ký kho", icon: Archive },
     { href: "/admin/users", label: "Nhân sự", icon: Users },
+    { href: "/admin/departments", label: "Tổ chuyên môn", icon: Building2 },
     { href: "/admin/reports", label: "Báo cáo", icon: FileText },
+    { href: "/profile", label: "Hồ sơ cá nhân", icon: UserCircle },
+    { href: "/admin/settings", label: "Cài đặt & Dữ liệu", icon: Settings },
 ];
 
 export function Sidebar() {

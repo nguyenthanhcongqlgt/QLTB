@@ -8,12 +8,16 @@ export const authConfig = {
         error: "/login",
     },
     callbacks: {
-        async jwt({ token, user }) {
+        async jwt({ token, user, trigger, session }) {
             if (user) {
                 token.id = user.id;
                 token.role = (user as any).role;
                 token.department = (user as any).department;
             }
+            // Tránh lưu cục Base64 khổng lồ vào Cookie gây sập 431
+            token.picture = undefined;
+            if ((token as any).image) (token as any).image = undefined;
+
             return token;
         },
         async session({ session, token }) {

@@ -49,6 +49,11 @@ model VerificationToken {
 
 // ─── Core Domain ─────────────────────────────────────────────────────────────
 
+model Department {
+  id   String @id @default(cuid())
+  name String @unique
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?

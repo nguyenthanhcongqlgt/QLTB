@@ -17,6 +17,7 @@ export default function UsersPage() {
     const { data: session } = useSession();
     const isAdmin = session?.user?.role === "ADMIN";
     const [users, setUsers] = useState<any[]>([]);
+    const [departments, setDepartments] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [editing, setEditing] = useState<any>(null);
@@ -33,7 +34,18 @@ export default function UsersPage() {
         setLoading(false);
     }
 
-    useEffect(() => { fetchUsers(); }, []);
+    async function fetchDepartments() {
+        const res = await fetch("/api/departments");
+        if (res.ok) {
+            const data = await res.json();
+            setDepartments(data);
+        }
+    }
+
+    useEffect(() => {
+        fetchUsers();
+        fetchDepartments();
+    }, []);
 
     function openCreate() {
         setEditing(null);
@@ -61,10 +73,12 @@ export default function UsersPage() {
         const url = editing ? `/api/users/${editing.id}` : "/api/users";
         const method = editing ? "PATCH" : "POST";
 
+        const submitData = { ...form, department: form.department === "none" ? "" : form.department };
+
         const res = await fetch(url, {
             method,
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(form),
+            body: JSON.stringify(submitData),
         });
 
         if (res.ok) {
@@ -212,12 +226,17 @@ export default function UsersPage() {
                             </div>
                             <div className="space-y-2">
                                 <Label className="text-slate-300">Phòng / Tổ chuyên môn</Label>
-                                <Input
-                                    value={form.department}
-                                    onChange={(e) => setForm((f) => ({ ...f, department: e.target.value }))}
-                                    className="bg-white/5 border-white/10"
-                                    placeholder="Tổ Toán - Tin"
-                                />
+                                <Select value={form.department || "none"} onValueChange={(v) => setForm(f => ({ ...f, department: v }))}>
+                                    <SelectTrigger className="bg-white/5 border-white/10 text-white">
+                                        <SelectValue placeholder="Chọn tổ môn" />
+                                    </SelectTrigger>
+                                    <SelectContent className="bg-slate-900 border-white/10 text-white">
+                                        <SelectItem value="none">-- Không chọn --</SelectItem>
+                                        {departments.map(d => (
+                                            <SelectItem key={d.id} value={d.name}>{d.name}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
                             </div>
                         </div>
                     </div>
