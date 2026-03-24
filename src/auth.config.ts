@@ -26,4 +26,6 @@ export const authConfig = {
         },
     },
     providers: [], // Cấu hình providers sẽ được thêm vào lib/auth.ts
+    secret: process.env.AUTH_SECRET || "xin-chao-day-la-chuoi-bi-mat-qltb-nextauth-2026",
+    trustHost: true,
 } satisfies NextAuthConfig;
