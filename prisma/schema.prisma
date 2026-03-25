@@ -54,6 +54,11 @@ model Department {
   name String @unique
 }
 
+model Setting {
+  key   String @id
+  value String @db.Text
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?

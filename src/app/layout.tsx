@@ -9,6 +9,9 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 export const metadata: Metadata = {
   title: "QLTB - Quản lý Thiết bị Trường học",
   description: "Hệ thống quản lý thiết bị, hóa chất, mô hình thực hành cho trường học",
+  icons: {
+    icon: "/api/settings/logo",
+  }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

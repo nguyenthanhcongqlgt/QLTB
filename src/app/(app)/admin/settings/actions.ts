@@ -66,6 +66,27 @@ export async function updateAdminProfileAction(prevState: any, formData: FormDat
         if (error.code === 'P2002') {
             return { success: false, message: "Email này đã được sử dụng" };
         }
-        return { success: false, message: error.message || "Có lỗi xảy ra khi cập nhật cập nhật" };
+        return { success: false, message: error.message || "Có lỗi xảy ra khi cập nhật" };
+    }
+}
+
+export async function updateSystemLogoAction(prevState: any, formData: FormData) {
+    try {
+        const session = await auth();
+        if (!session?.user || session.user.role !== "ADMIN") throw new Error("Unauthorized");
+
+        const imageBase64 = formData.get("logo") as string;
+        if (!imageBase64) return { success: false, message: "Chưa có ảnh nào được chọn" };
+
+        await prisma.setting.upsert({
+            where: { key: "LOGO" },
+            update: { value: imageBase64 },
+            create: { key: "LOGO", value: imageBase64 }
+        });
+
+        revalidatePath("/", "layout");
+        return { success: true, message: "Đã cập nhật Logo hệ thống thành công!" };
+    } catch (error: any) {
+        return { success: false, message: error.message || "Có lỗi xảy ra khi lưu Logo" };
     }
 }

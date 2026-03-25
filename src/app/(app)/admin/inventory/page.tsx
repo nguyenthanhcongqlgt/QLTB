@@ -14,12 +14,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 
-const ACTION_CONFIG: Record<string, { label: string; class: string; icon: React.ElementType }> = {
-    IMPORT: { label: "Nhập kho", class: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30", icon: PackagePlus },
-    EXPORT: { label: "Xuất kho", class: "bg-blue-500/20 text-blue-400 border-blue-500/30", icon: Plus },
-    DAMAGE: { label: "Hư hỏng", class: "bg-red-500/20 text-red-400 border-red-500/30", icon: AlertOctagon },
-    REPAIR: { label: "Sửa chữa", class: "bg-amber-500/20 text-amber-400 border-amber-500/30", icon: Wrench },
-    ADJUST: { label: "Điều chỉnh", class: "bg-slate-500/20 text-slate-400 border-slate-500/30", icon: SlidersHorizontal },
+const ACTION_CONFIG: Record<string, { label: string; desc: string; class: string; icon: React.ElementType }> = {
+    IMPORT: { label: "Nhập kho", desc: "Mua mới, bổ sung thêm", class: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30", icon: PackagePlus },
+    EXPORT: { label: "Xuất kho", desc: "Mượn để giảng dạy", class: "bg-blue-500/20 text-blue-400 border-blue-500/30", icon: Plus },
+    DAMAGE: { label: "Hư hỏng", desc: "Báo cáo lỗi, hao mòn", class: "bg-red-500/20 text-red-400 border-red-500/30", icon: AlertOctagon },
+    REPAIR: { label: "Sửa chữa", desc: "Khắc phục xong và trả lại kho", class: "bg-amber-500/20 text-amber-400 border-amber-500/30", icon: Wrench },
+    ADJUST: { label: "Điều chỉnh", desc: "Kiểm kê thất thoát/dư thừa", class: "bg-slate-500/20 text-slate-400 border-slate-500/30", icon: SlidersHorizontal },
 };
 
 export default function InventoryPage() {
@@ -107,7 +107,8 @@ export default function InventoryPage() {
                                     </div>
                                     <div>
                                         <p className="text-white font-bold text-lg leading-none">{count}</p>
-                                        <p className="text-slate-400 text-xs mt-0.5">{cfg.label}</p>
+                                        <p className="text-slate-300 font-medium text-xs mt-0.5">{cfg.label}</p>
+                                        <p className="text-slate-500 text-[10px] mt-0.5 leading-tight">{cfg.desc}</p>
                                     </div>
                                 </CardContent>
                             </Card>
@@ -213,9 +214,14 @@ export default function InventoryPage() {
                                 <SelectTrigger className="bg-white/5 border-white/10 text-white">
                                     <SelectValue />
                                 </SelectTrigger>
-                                <SelectContent>
+                                <SelectContent className="max-h-60">
                                     {Object.entries(ACTION_CONFIG).filter(([k]) => k !== "EXPORT").map(([key, cfg]) => (
-                                        <SelectItem key={key} value={key}>{cfg.label}</SelectItem>
+                                        <SelectItem key={key} value={key}>
+                                            <div className="flex flex-col">
+                                                <span className="font-medium">{cfg.label}</span>
+                                                <span className="text-xs text-slate-500">{cfg.desc}</span>
+                                            </div>
+                                        </SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>

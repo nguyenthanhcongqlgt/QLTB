@@ -46,8 +46,17 @@ export function Sidebar() {
             {/* Logo */}
             <div className="p-4 border-b border-white/10">
                 <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
-                        <BookOpen className="w-5 h-5 text-blue-400" />
+                    <div className="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center overflow-hidden shrink-0">
+                        <img
+                            src="/api/settings/logo"
+                            alt="Logo"
+                            className="w-full h-full object-contain bg-white"
+                            onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                            }}
+                        />
+                        <BookOpen className="w-5 h-5 text-blue-400 hidden" />
                     </div>
                     <div>
                         <p className="font-bold text-white text-sm">QLTB</p>
@@ -119,7 +128,18 @@ export function Sidebar() {
             {/* Mobile header */}
             <header className="lg:hidden fixed top-0 inset-x-0 z-40 h-14 bg-slate-900/95 border-b border-white/10 backdrop-blur-xl flex items-center justify-between px-4">
                 <div className="flex items-center gap-2">
-                    <BookOpen className="w-5 h-5 text-blue-400" />
+                    <div className="w-7 h-7 rounded-md bg-slate-800 flex items-center justify-center overflow-hidden">
+                        <img
+                            src="/api/settings/logo"
+                            alt="Logo"
+                            className="w-full h-full object-contain bg-white"
+                            onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                            }}
+                        />
+                        <BookOpen className="w-4 h-4 text-blue-400 hidden" />
+                    </div>
                     <span className="font-bold text-white text-sm">QLTB</span>
                 </div>
                 <button
